@@ -1,0 +1,36 @@
+# Build a small book for AAPL (prices are ticks: 10050 = 100.50)
+LIMIT SELL AAPL 10100 50
+LIMIT SELL AAPL 10100 30
+LIMIT SELL AAPL 10200 100
+LIMIT BUY  AAPL 9900 40
+LIMIT BUY  AAPL 9800 60
+BOOK AAPL
+
+# A buy that crosses: trades at the resting price, FIFO within the level
+LIMIT BUY AAPL 10100 70
+BOOK AAPL
+
+# Price improvement: the buyer was willing to pay 10500 but trades at 10200
+LIMIT BUY AAPL 10500 20
+BOOK AAPL
+
+# Time-in-force
+LIMIT BUY AAPL 10200 500 IOC
+LIMIT BUY AAPL 10200 10  FOK
+MARKET SELL AAPL 25
+BOOK AAPL
+
+# Cancel and modify
+LIMIT BUY AAPL 9700 10
+CANCEL AAPL 11
+CANCEL AAPL 11
+MODIFY AAPL 4 9950 40
+BOOK AAPL
+
+# Independent books per symbol
+LIMIT SELL MSFT 30000 5
+SYMBOLS
+
+# Errors are reported, never crash
+LIMIT BUY AAPL 100 0
+LIMIT BUY AAPL abc 5
